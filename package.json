@@ -1,0 +1,31 @@
+{
+  "name": "Tetris",
+  "version": "1.0.0",
+  "description": "Tetris implemented in react-js",
+  "main": "webapp.js",
+  "scripts": {
+    "test": "echo \"TODO make tests :)\" && exit 1",
+      "start": " webpack-dev-server --config webpack.hot.config.js --hot --progress --inline --port 8090 "
+  },
+  "keywords": [
+    "react",
+    "webpack",
+    "webapp"],
+  "author": "Abraham Bah",
+  "license": "ISC",
+  "dependencies": {
+    "webpack": "^1.12.2",
+    "react":"^0.14.1",
+    "react-dom":"^0.14.1",
+    "jsx-loader":"^0.13.2",
+    "sass-loader": "^3.0.0",
+    "style-loader": "^0.12.4",
+    "css-loader": "^0.19.0",
+    "file-loader":"^0.8.4",
+    "babel-loader":"^5.3.3"
+  },
+  "devDependencies": {
+    "webpack-dev-server":"^1.12.1",
+    "react-hot-loader":"^1.3.0"
+  }
+}

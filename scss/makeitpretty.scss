@@ -1,0 +1,11 @@
+#content{
+  $width: 480px;
+  $height: 600px;
+	width:$width;
+	height:$height;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin:-$height/2 0  -$width/2;
+  border-style: solid;
+}
