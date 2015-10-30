@@ -10,7 +10,7 @@ module.exports = {
         app: [
             'webpack-dev-server/client?http://localhost:8090/',
             'webpack/hot/only-dev-server',
-            './js/entry.jsx'
+            './js/Tetris.jsx'
         ]
     },
 
