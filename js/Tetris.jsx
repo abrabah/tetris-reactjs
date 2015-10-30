@@ -24,7 +24,7 @@ var TetrisBoard = React.createClass({
   render: function () {
         return (
           <svg viewBox={TetrisStore.viewBox}>{
-            this.state.board.map( (elm, index)=> (<rect x={index% TetrisStore.board_w} y="1" width="1" height="1"/>) )}
+            this.state.board.map( (elm, index)=> (<rect x={index % TetrisStore.board_w} y={Math.floor(index / TetrisStore.board_w)} width="0.9" height="0.9" fill={TetrisStore.colors[elm]}/>) )}
             </svg>
         );
     },
