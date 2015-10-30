@@ -2,24 +2,40 @@
 
 import React from  "react"
 import ReactDom from 'react-dom'
-
 import scss from '../scss/makeitpretty.scss'
+import TetrisStore from 'TetrisStore'
 
 
-var Main = React.createClass({
-    render: function () {
+  const BOARD_WIDTH = 10;
+  const BOARD_HEIGHT = 22;
+
+var TetrisBoard = React.createClass({
+
+
+  componentDidMount: function(){
+    //  TetrisStore.addChangeListener(this._onChange);
+  },
+
+  getInitialState: function() {
+    return {board:TetrisStore.getBoard() }
+  },
+
+
+  render: function () {
         return (
-            <article className='grid-container'>
-            <header >
-                Let's code tetris!
-            </header>
-            </article>
+          <svg viewBox={TetrisStore.viewBox}>{
+            this.state.board.map( (elm, index)=> (<rect x={index% TetrisStore.board_w} y="1" width="1" height="1"/>) )}
+            </svg>
         );
-    }
+    },
+
+    _onChange: function(){
+      this.setState({board:TetrisStore.getBoard()})
+    },
 
 });
 
 ReactDom.render(
-    <Main />,
+    <TetrisBoard />,
     document.getElementById('content')
 );
