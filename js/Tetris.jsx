@@ -3,35 +3,37 @@
 import React from  "react"
 import ReactDom from 'react-dom'
 import scss from '../scss/makeitpretty.scss'
-import TetrisStore from 'TetrisStore'
+import Store from 'TetrisStore'
+import Constants from 'TetrisConstants'
+import Dispatcher from 'TetrisDispatcher'
 
 
-  const BOARD_WIDTH = 10;
-  const BOARD_HEIGHT = 22;
 
 var TetrisBoard = React.createClass({
 
 
   componentDidMount: function(){
+    Dispatcher.addKeyEventListener()
     //  TetrisStore.addChangeListener(this._onChange);
   },
 
   getInitialState: function() {
-    return {board:TetrisStore.getBoard() }
+    return {board:Store.getBoard() }
   },
 
 
   render: function () {
         return (
-          <svg viewBox={TetrisStore.viewBox}>{
-            this.state.board.map( (elm, index)=> (<rect x={index % TetrisStore.board_w} y={Math.floor(index / TetrisStore.board_w)} width="0.9" height="0.9" fill={TetrisStore.colors[elm]}/>) )}
+          <svg viewBox={Constants.viewBox}>{
+            this.state.board.map( (elm, index)=> (<rect x={index % Constants.BOARD_WIDTH} y={Math.floor(index / Constants.BOARD_WIDTH)} width="0.9" height="0.9" fill={Constants.colors[elm]}/>) )}
             </svg>
         );
     },
 
     _onChange: function(){
-      this.setState({board:TetrisStore.getBoard()})
+      this.setState({board:Store.getBoard()})
     },
+
 
 });
 
