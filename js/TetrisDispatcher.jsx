@@ -4,12 +4,18 @@ import Store from 'TetrisStore'
 class Dispatcher{
 
 
+  init(){
+    this.addKeyEventListener()
+    clearInterval(this.clock)
+    this.clock = setInterval( elm=> Store.movePieceDown() ,1000)
+  }
+
 
   addKeyEventListener(){
-      window.onkeyup = function(e){
+      window.onkeydown = function(e){
         switch (e.code) {
           case 'ArrowUp':
-          Store.rotatePiece()
+          Store.rotateTermino()
           break
           case 'ArrowLeft':
           Store.movePieceLeft()

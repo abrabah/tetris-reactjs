@@ -13,7 +13,8 @@ var TetrisBoard = React.createClass({
 
 
   componentDidMount: function(){
-    Dispatcher.addKeyEventListener()
+    Store.addBoardListener(this._onChange)
+    Dispatcher.init()
     //  TetrisStore.addChangeListener(this._onChange);
   },
 
@@ -23,15 +24,20 @@ var TetrisBoard = React.createClass({
 
 
   render: function () {
+
+    
+
+
         return (
           <svg viewBox={Constants.viewBox}>{
-            this.state.board.map( (elm, index)=> (<rect x={index % Constants.BOARD_WIDTH} y={Math.floor(index / Constants.BOARD_WIDTH)} width="0.9" height="0.9" fill={Constants.colors[elm]}/>) )}
+            this.state.board
+            .map( (elm, index)=> (<rect x={index % Constants.BOARD_WIDTH} y={Math.floor(index / Constants.BOARD_WIDTH)} width="0.9" height="0.9" fill={Constants.colors[elm]}/>) )}
             </svg>
         );
     },
 
-    _onChange: function(){
-      this.setState({board:Store.getBoard()})
+    _onChange: function(board){
+      this.setState({board:board})
     },
 
 
