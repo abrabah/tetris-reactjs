@@ -27,7 +27,7 @@ class Dispatcher{
           Store.movePieceDown()
           break
           case 'Space':
-          Store.movePieceToBottom()
+          Store.moveTetrominoToBottom()
           break
         }
       }
