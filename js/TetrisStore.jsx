@@ -10,7 +10,15 @@ class Store extends EventEmitter {
   constructor(){
     super()
     this.listeners = new Array()
-    this.board = new Array(Constants.BOARD_HEIGHT*Constants.BOARD_WIDTH)
+    this.board = new Array((Constants.BOARD_HEIGHT)*(Constants.BOARD_WIDTH) )
+    for(var i = 0; i < this.board.length - Constants.BOARD_WIDTH; i+=Constants.BOARD_WIDTH){
+      this.board[i] = 'E'
+      this.board[i + Constants.BOARD_WIDTH -1] = 'E'
+    }
+    for(var i = (Constants.BOARD_HEIGHT - 1)*Constants.BOARD_WIDTH; i < this.board.length; i++){
+      this.board[i] = 'E'
+    }
+
     this.currentTetromino = 81
     this.nextTetromino = 0
     this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH/2)
@@ -40,27 +48,50 @@ class Store extends EventEmitter {
     this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 2]] = color
   }
 
-  tetrominoFits(){
+  tetrominoFits(pos,tetromino){
+    if(
+      this.board[pos]                                                       ||
+      this.board[pos  + Constants.tetrominoes[tetromino + 0]]   ||
+      this.board[pos  + Constants.tetrominoes[tetromino + 1]]   ||
+      this.board[pos  + Constants.tetrominoes[tetromino + 2]]
+    ) {return false}
+
     return true
   }
 
   rotateTermino(){
     const rotatedTetromino = 16*Math.floor(this.currentTetromino / 16) + ((this.currentTetromino + 4) % 16)
 
-    console.log(rotatedTetromino)
-    if(!this.tetrominoFits(rotatedTetromino)){
+    this.removeCurrentTetromino()
+    if(!this.tetrominoFits(this.currentPos,rotatedTetromino)){
+      this.insertCurrentTetromino()
       return
     }
-    this.removeCurrentTetromino()
+
     this.currentTetromino = rotatedTetromino
     this.insertCurrentTetromino()
 
     this._broadCastChange()
   }
-
   movePieceDown(){
+    this._broadCastChange()
+  }
 
+  moveTetrominoLeft(){
+    this.removeCurrentTetromino()
+    if(this.tetrominoFits(this.currentPos - 1, this.currentTetromino)){
+      this.currentPos--;
+    }
+    this.insertCurrentTetromino()
+    this._broadCastChange()
+  }
 
+  moveTetrominoRight(){
+    this.removeCurrentTetromino()
+    if(this.tetrominoFits(this.currentPos + 1, this.currentTetromino)){
+      this.currentPos++;
+    }
+    this.insertCurrentTetromino()
     this._broadCastChange()
   }
 

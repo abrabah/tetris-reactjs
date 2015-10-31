@@ -18,10 +18,10 @@ class Dispatcher{
           Store.rotateTermino()
           break
           case 'ArrowLeft':
-          Store.movePieceLeft()
+          Store.moveTetrominoLeft()
           break
           case 'ArrowRight':
-          Store.movePieceRight()
+          Store.moveTetrominoRight()
           break
           case 'ArrowDown':
           Store.movePieceDown()

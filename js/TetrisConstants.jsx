@@ -28,6 +28,7 @@ colors: { I:'#47FDCE', //Cyan, Stick
           Z: '#DB0000', //Red, left snake
           J: '#0033EE', //Blue, left gun
           L: '#AC5330', //Orange, right gun
+          E: '#6E6F6F', //Grey, edge
         },
 
 tetrominoes: [

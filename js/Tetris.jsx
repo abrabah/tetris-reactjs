@@ -24,10 +24,7 @@ var TetrisBoard = React.createClass({
 
 
   render: function () {
-
     
-
-
         return (
           <svg viewBox={Constants.viewBox}>{
             this.state.board
