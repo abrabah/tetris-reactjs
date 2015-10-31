@@ -11,11 +11,10 @@ class Store extends EventEmitter {
     super()
     this.listeners = new Array()
     this.board = new Array(Constants.BOARD_HEIGHT*Constants.BOARD_WIDTH)
-    this.board[10] = 'Z'
-
-    this.currentTetromino = 0
+    this.currentTetromino = 81
     this.nextTetromino = 0
     this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH/2)
+    this.insertCurrentTetromino()
   }
 
   addBoardListener(callback){
@@ -28,17 +27,17 @@ class Store extends EventEmitter {
 
   removeCurrentTetromino(){
     delete this.board[this.currentPos]
-    delete this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino +1]]
-    delete this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino +2]]
-    delete this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino +3]]
+    delete this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 0]]
+    delete this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 1]]
+    delete this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 2]]
   }
 
   insertCurrentTetromino(){
-    const color = Constants.tetrominoes[this.currentTetromino]
+    const color = Constants.tetrominoes[this.currentTetromino - 1]
     this.board[this.currentPos] = color
-    this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino +1]] = color
-    this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino +2]] = color
-    this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino +3]] = color
+    this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 0]] = color
+    this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 1]] = color
+    this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 2]] = color
   }
 
   tetrominoFits(){
@@ -46,7 +45,8 @@ class Store extends EventEmitter {
   }
 
   rotateTermino(){
-    const rotatedTetromino = (this.currentTetromino + 4) % (4*4)
+    const rotatedTetromino = 16*Math.floor(this.currentTetromino / 16) + ((this.currentTetromino + 4) % 16)
+
     console.log(rotatedTetromino)
     if(!this.tetrominoFits(rotatedTetromino)){
       return

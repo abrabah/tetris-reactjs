@@ -34,7 +34,32 @@ tetrominoes: [
     'I',  TC, BC, 2 * BOARD_WIDTH,
     'I',  CL, CR, 2,
     'I',  TC, BC, 2 * BOARD_WIDTH,
-    'I',  CL, CR, 2, ]
+    'I',  CL, CR, 2,
+    'O',  CL, BL, BC,
+    'O',  CL, BL, BC,
+    'O',  CL, BL, BC,
+    'O',  CL, BL, BC,
+    'T',  TC, CL, CR,
+    'T',  TC, CR, BC,
+    'T',  CL, CR, BC,
+    'T',  TC, CL, BC,
+    'S',  TC, TR, CL,
+    'S',  TC, CR, BR,
+    'S',  TC, TR, CL,
+    'S',  TC, CR, BR,
+    'Z',  TL, TC, CR,
+    'Z',  TR, CR, BC,
+    'Z',  TL, TC, CR,
+    'Z',  TR, CR, BC,
+    'J',  TL, CL, CR,
+    'J',  TC, TR, BC,
+    'J',  CL, CR, BR,
+    'J',  TC, BC, BL,
+    'L',  TR, CL, CR,
+    'L',  TC, BC, BR,
+    'L',  CL, CR, BL,
+    'L',  TL, TC, BC
+  ]
 }
 
 
