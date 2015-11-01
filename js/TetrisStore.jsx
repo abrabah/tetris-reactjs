@@ -96,13 +96,15 @@ class Store extends EventEmitter {
   }
 
   broadcastChange(){
-    //TODO move filled lines
-      this.changeTetromino()
+    this.removeCurrentTetromino()
+    this._moveFilledLines()
+    this.changeTetromino()
+    this.insertCurrentTetromino()
     this.listeners.forEach(callback => callback(this.board))
   }
 
   changeTetromino(){
-    this.removeCurrentTetromino()
+
 
     if( !this.tetrominoFits(this.currentPos +Constants.BOARD_WIDTH, this.currentTetromino)){
       this.insertCurrentTetromino()
@@ -110,7 +112,37 @@ class Store extends EventEmitter {
       this.nextTetromino = 1 + Math.floor(Math.random()*(27))*4
       this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH/2)
     }
-      this.insertCurrentTetromino()
+
+  }
+
+  _moveFilledLines(){
+    var move = 0
+    for(let i = this.board.length - Constants.BOARD_WIDTH*2; i > 0; i-=Constants.BOARD_WIDTH){
+
+      for(let m = i +1; m < i + Constants.BOARD_WIDTH -1; m++){
+        if(move > 0){
+          console.log('vardebug')
+        }
+        if(this.board[m])
+          this.board[m + move] = this.board[m]
+        else
+        delete this.board[m + move]
+      }
+
+      let rowCount = 0
+      for(let j = i; j < i + Constants.BOARD_WIDTH; j++){
+        if(this.board[j]){
+          rowCount++
+        }
+      }
+
+
+
+        if(rowCount == Constants.BOARD_WIDTH){
+            move+= Constants.BOARD_WIDTH
+          }
+
+    }
   }
 
 }
