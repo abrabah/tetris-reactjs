@@ -1,5 +1,6 @@
 
 import Store from 'TetrisStore'
+import Constants from 'TetrisConstants'
 
 class Dispatcher{
 
@@ -7,7 +8,7 @@ class Dispatcher{
   init(){
     this.addKeyEventListener()
     clearInterval(this.clock)
-    this.clock = setInterval( elm=> Store.movePieceDown() ,1000)
+    this.clock = setInterval( elm=> Store.moveTetromino(Constants.BOARD_WIDTH) ,1000)
   }
 
 
@@ -18,13 +19,13 @@ class Dispatcher{
           Store.rotateTermino()
           break
           case 'ArrowLeft':
-          Store.moveTetrominoLeft()
+          Store.moveTetromino(-1)
           break
           case 'ArrowRight':
-          Store.moveTetrominoRight()
+          Store.moveTetromino(1)
           break
           case 'ArrowDown':
-          Store.movePieceDown()
+          Store.moveTetromino(Constants.BOARD_WIDTH)
           break
           case 'Space':
           Store.moveTetrominoToBottom()

@@ -72,22 +72,11 @@ class Store extends EventEmitter {
     this.currentTetromino = rotatedTetromino
     this.insertCurrentTetromino()
   }
-  movePieceDown(){
-    this._broadCastChange()
-  }
-
-  moveTetrominoLeft(){
+  
+  moveTetromino(delta){
     this.removeCurrentTetromino()
-    if(this.tetrominoFits(this.currentPos - 1, this.currentTetromino)){
-      this.currentPos--;
-    }
-    this.insertCurrentTetromino()
-  }
-
-  moveTetrominoRight(){
-    this.removeCurrentTetromino()
-    if(this.tetrominoFits(this.currentPos + 1, this.currentTetromino)){
-      this.currentPos++;
+    if(this.tetrominoFits(this.currentPos + delta, this.currentTetromino)){
+      this.currentPos += delta;
     }
     this.insertCurrentTetromino()
   }
