@@ -11,6 +11,7 @@ class Dispatcher{
 
 
   run(){
+    console.log(this.keyCode)
     if(this.runningLoop){
       console.log('thrashing..')
       return
@@ -18,19 +19,19 @@ class Dispatcher{
     this.runningLoop = true
     if(this.keyCode){
       switch (this.keyCode) {
-       case 'ArrowUp':
+       case 38: //'ArrowUp'
        Store.rotateTermino()
        break
-       case 'ArrowLeft':
+       case  37: //ArrowLeft'
        Store.moveTetromino(-1)
        break
-       case 'ArrowRight':
+       case 39://'ArrowRight'
        Store.moveTetromino(1)
        break
-       case 'ArrowDown':
+       case 40: //'ArrowDown'
        Store.moveTetromino(Constants.BOARD_WIDTH)
        break
-       case 'Space':
+       case 32: //'Space':
        Store.moveTetrominoToBottom()
        break
     }
@@ -65,14 +66,15 @@ class Dispatcher{
 
   addKeyEventListener(){
     const ths = this
-      window.onkeydown = evt => {ths.keyCode = evt.code}
+
+      window.onkeydown = evt =>  ths.keyCode = evt.keyCode
 }
 
 
 
 
     removeKeyEventListener(){
-      window.onkeyup = undefined
+      window.onkeydown = null
     }
 }
 
