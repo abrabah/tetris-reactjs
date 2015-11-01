@@ -46,8 +46,6 @@ class Store extends EventEmitter {
     this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 0]] = color
     this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 1]] = color
     this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 2]] = color
-    this._broadCastChange()
-
   }
 
   tetrominoFits(pos,tetromino){
@@ -72,7 +70,7 @@ class Store extends EventEmitter {
     this.currentTetromino = rotatedTetromino
     this.insertCurrentTetromino()
   }
-  
+
   moveTetromino(delta){
     this.removeCurrentTetromino()
     if(this.tetrominoFits(this.currentPos + delta, this.currentTetromino)){
@@ -96,7 +94,7 @@ class Store extends EventEmitter {
     return this.currentPos
   }
 
-  _broadCastChange(){
+  broadcastChange(){
     this.listeners.forEach(callback => callback(this.board))
 
   }
