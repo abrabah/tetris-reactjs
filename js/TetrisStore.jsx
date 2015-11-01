@@ -19,8 +19,8 @@ class Store extends EventEmitter {
       this.board[i] = 'E'
     }
 
-    this.currentTetromino = 81
-    this.nextTetromino = 1
+    this.currentTetromino = this._getRandomTetromino()
+    this.nextTetromino = this._getRandomTetromino()
     this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH/2)
     this.insertCurrentTetromino()
   }
@@ -99,7 +99,12 @@ class Store extends EventEmitter {
     this.removeCurrentTetromino()
     this._moveFilledLines()
     this.changeTetromino()
+    if(!this.tetrominoFits(this.currentPos +Constants.BOARD_WIDTH, this.currentTetromino)){
+      console.log("TODO implement GAME OVER!")
+    }
     this.insertCurrentTetromino()
+
+
     this.listeners.forEach(callback => callback(this.board))
   }
 
@@ -109,22 +114,24 @@ class Store extends EventEmitter {
     if( !this.tetrominoFits(this.currentPos +Constants.BOARD_WIDTH, this.currentTetromino)){
       this.insertCurrentTetromino()
       this.currentTetromino = this.nextTetromino
-      this.nextTetromino = 1 + Math.floor(Math.random()*(27))*4
+      this.nextTetromino = this._getRandomTetromino()
       this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH/2)
     }
 
   }
+  _getRandomTetromino(){
+    return 1 + Math.floor(Math.random()*(27))*4
+  }
 
   _moveFilledLines(){
     var move = 0
+    let movedLines = 0
+    let scoreMultiplicator = 10
     for(let i = this.board.length - Constants.BOARD_WIDTH*2; i > 0; i-=Constants.BOARD_WIDTH){
 
       for(let m = i +1; m < i + Constants.BOARD_WIDTH -1; m++){
-        if(move > 0){
-          console.log('vardebug')
-        }
         if(this.board[m])
-          this.board[m + move] = this.board[m]
+        this.board[m + move] = this.board[m]
         else
         delete this.board[m + move]
       }
@@ -135,14 +142,15 @@ class Store extends EventEmitter {
           rowCount++
         }
       }
-
-
-
-        if(rowCount == Constants.BOARD_WIDTH){
-            move+= Constants.BOARD_WIDTH
-          }
+      if(rowCount == Constants.BOARD_WIDTH){
+        scoreMultiplicator*= 2
+        movedLines++
+        move+= Constants.BOARD_WIDTH
+      }
 
     }
+
+    this.score += movedLines * scoreMultiplicator
   }
 
 }

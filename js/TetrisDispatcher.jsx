@@ -12,8 +12,11 @@ class Dispatcher{
 
   run(){
     if(this.runningLoop){
-      console.log("thrashing")
+      console.log("trash cycle")
       return
+    }
+    if(this.moveTetromino){
+      Store.moveTetromino(Constants.BOARD_WIDTH)
     }
     this.runningLoop = true
     if(this.keyCode){
@@ -36,9 +39,7 @@ class Dispatcher{
     }
   }
 
-    if(this.moveTetromino){
-      Store.moveTetromino(Constants.BOARD_WIDTH)
-    }
+
 
     if (this.moveTetromino || this.keyCode){
     Store.broadcastChange()
