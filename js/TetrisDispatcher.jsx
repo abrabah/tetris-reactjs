@@ -11,9 +11,8 @@ class Dispatcher{
 
 
   run(){
-    console.log(this.keyCode)
     if(this.runningLoop){
-      console.log('thrashing..')
+      console.log("thrashing")
       return
     }
     this.runningLoop = true
@@ -66,7 +65,6 @@ class Dispatcher{
 
   addKeyEventListener(){
     const ths = this
-
       window.onkeydown = evt =>  ths.keyCode = evt.keyCode
 }
 

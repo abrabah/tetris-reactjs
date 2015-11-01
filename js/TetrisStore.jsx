@@ -20,7 +20,7 @@ class Store extends EventEmitter {
     }
 
     this.currentTetromino = 81
-    this.nextTetromino = 0
+    this.nextTetromino = 1
     this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH/2)
     this.insertCurrentTetromino()
   }
@@ -59,6 +59,7 @@ class Store extends EventEmitter {
     return true
   }
 
+
   rotateTermino(){
     const rotatedTetromino = 16*Math.floor(this.currentTetromino / 16) + ((this.currentTetromino + 4) % 16)
 
@@ -95,8 +96,21 @@ class Store extends EventEmitter {
   }
 
   broadcastChange(){
+    //TODO move filled lines
+      this.changeTetromino()
     this.listeners.forEach(callback => callback(this.board))
+  }
 
+  changeTetromino(){
+    this.removeCurrentTetromino()
+
+    if( !this.tetrominoFits(this.currentPos +Constants.BOARD_WIDTH, this.currentTetromino)){
+      this.insertCurrentTetromino()
+      this.currentTetromino = this.nextTetromino
+      this.nextTetromino = 1 + Math.floor(Math.random()*(27))*4
+      this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH/2)
+    }
+      this.insertCurrentTetromino()
   }
 
 }
