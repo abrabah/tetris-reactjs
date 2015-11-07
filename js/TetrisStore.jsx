@@ -9,23 +9,24 @@ class Store extends EventEmitter {
         this.reset()
     }
 
-    getBoard() {
-        return this.board;
+    get(value){
+        return this.props[value]
     }
 
+
     removeCurrentTetromino() {
-        delete this.board[this.currentPos]
-        delete this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 0]]
-        delete this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 1]]
-        delete this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 2]]
+        delete this.props.board[this.currentPos]
+        delete this.props.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 0]]
+        delete this.props.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 1]]
+        delete this.props.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 2]]
     }
 
     insertCurrentTetromino() {
         const color = Constants.tetrominoes[this.currentTetromino - 1]
-        this.board[this.currentPos] = color
-        this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 0]] = color
-        this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 1]] = color
-        this.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 2]] = color
+        this.props.board[this.currentPos] = color
+        this.props.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 0]] = color
+        this.props.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 1]] = color
+        this.props.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 2]] = color
     }
 
 
@@ -44,13 +45,16 @@ class Store extends EventEmitter {
 
     reset() {
         stop()
-        this.board = new Array((Constants.BOARD_HEIGHT) * (Constants.BOARD_WIDTH))
-        for (var i = 0; i < this.board.length - Constants.BOARD_WIDTH; i += Constants.BOARD_WIDTH) {
-            this.board[i] = 'E'
-            this.board[i + Constants.BOARD_WIDTH - 1] = 'E'
+        this.props = {}
+        this.props.score = 0
+        this.props.level = 0
+        this.props.board = new Array((Constants.BOARD_HEIGHT) * (Constants.BOARD_WIDTH))
+        for (var i = 0; i < this.props.board.length - Constants.BOARD_WIDTH; i += Constants.BOARD_WIDTH) {
+            this.props.board[i] = 'E'
+            this.props.board[i + Constants.BOARD_WIDTH - 1] = 'E'
         }
-        for (var i = (Constants.BOARD_HEIGHT - 1) * Constants.BOARD_WIDTH; i < this.board.length; i++) {
-            this.board[i] = 'E'
+        for (var i = (Constants.BOARD_HEIGHT - 1) * Constants.BOARD_WIDTH; i < this.props.board.length; i++) {
+            this.props.board[i] = 'E'
         }
 
         this.currentTetromino = this._getRandomTetromino()
@@ -96,7 +100,7 @@ class Store extends EventEmitter {
 
         if (this.shouldMoveTetromino || this.keyCode) {
             this.drawBoard()
-            this.emit('boardChange', this.board)
+            this.emit('boardChange', this.props.board)
 
         }
 
@@ -108,10 +112,10 @@ class Store extends EventEmitter {
 
     tetrominoFits(pos, tetromino) {
         if (
-            this.board[pos] ||
-            this.board[pos + Constants.tetrominoes[tetromino + 0]] ||
-            this.board[pos + Constants.tetrominoes[tetromino + 1]] ||
-            this.board[pos + Constants.tetrominoes[tetromino + 2]]
+            this.props.board[pos] ||
+            this.props.board[pos + Constants.tetrominoes[tetromino + 0]] ||
+            this.props.board[pos + Constants.tetrominoes[tetromino + 1]] ||
+            this.props.board[pos + Constants.tetrominoes[tetromino + 2]]
         ) {
             return false
         }
@@ -137,7 +141,7 @@ class Store extends EventEmitter {
     }
 
     _getBottomPosition() {
-        for (var i = this.currentPos; i < this.board.length; i += Constants.BOARD_WIDTH) {
+        for (var i = this.currentPos; i < this.props.board.length; i += Constants.BOARD_WIDTH) {
             if (!this.tetrominoFits(i, this.currentTetromino)) {
                 return i - Constants.BOARD_WIDTH;
             }
@@ -174,31 +178,29 @@ class Store extends EventEmitter {
     _moveFilledLines() {
         var move = 0
         let movedLines = 0
-        let scoreMultiplicator = 10
-        for (let i = this.board.length - Constants.BOARD_WIDTH * 2; i > 0; i -= Constants.BOARD_WIDTH) {
+        for (let i = this.props.board.length - Constants.BOARD_WIDTH * 2; i > 0; i -= Constants.BOARD_WIDTH) {
 
             for (let m = i + 1; m < i + Constants.BOARD_WIDTH - 1; m++) {
-                if (this.board[m])
-                    this.board[m + move] = this.board[m]
+                if (this.props.board[m])
+                    this.props.board[m + move] = this.props.board[m]
                 else
-                    delete this.board[m + move]
+                    delete this.props.board[m + move]
             }
 
             let rowCount = 0
             for (let j = i; j < i + Constants.BOARD_WIDTH; j++) {
-                if (this.board[j]) {
+                if (this.props.board[j]) {
                     rowCount++
                 }
             }
             if (rowCount == Constants.BOARD_WIDTH) {
-                scoreMultiplicator *= 2
                 movedLines++
                 move += Constants.BOARD_WIDTH
             }
 
         }
-
-        this.score += movedLines * scoreMultiplicator
+        this.props.score += Constants.lineScoreMultiplicator[movedLines]*(this.props.level + 1)
+        this.emit('scoreChange', this.props.score)
     }
 
 }

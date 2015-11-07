@@ -18,7 +18,7 @@ const Board = React.createClass({
   },
 
   getInitialState: function() {
-    return {board:Store.getBoard() }
+    return {board:Store.get('board') }
   },
 
 
