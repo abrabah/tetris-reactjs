@@ -9,7 +9,7 @@ class Store extends EventEmitter {
         this.reset()
     }
 
-    get(value){
+    get(value) {
         return this.props[value]
     }
 
@@ -58,7 +58,7 @@ class Store extends EventEmitter {
         }
 
         this.currentTetromino = this._getRandomTetromino()
-        this.nextTetromino = this._getRandomTetromino()
+        this.props.nextTetromino = this._getRandomTetromino()
         this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH / 2)
         this.insertCurrentTetromino()
     }
@@ -70,7 +70,7 @@ class Store extends EventEmitter {
             return
         }
 
-        if(this.shouldMoveTetromino || this.keyCode)
+        if (this.shouldMoveTetromino || this.keyCode)
             this.removeCurrentTetromino()
 
         if (this.shouldMoveTetromino) {
@@ -164,8 +164,9 @@ class Store extends EventEmitter {
 
         if (!this.tetrominoFits(this.currentPos + Constants.BOARD_WIDTH, this.currentTetromino)) {
             this.insertCurrentTetromino()
-            this.currentTetromino = this.nextTetromino
-            this.nextTetromino = this._getRandomTetromino()
+            this.currentTetromino = this.props.nextTetromino
+            this.props.nextTetromino = this._getRandomTetromino()
+            this.emit('nextTetrominoChange',this.props.nextTetromino)
             this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH / 2)
         }
 
@@ -199,7 +200,7 @@ class Store extends EventEmitter {
             }
 
         }
-        this.props.score += Constants.lineScoreMultiplicator[movedLines]*(this.props.level + 1)
+        this.props.score += Constants.lineScoreMultiplicator[movedLines] * (this.props.level + 1)
         this.emit('scoreChange', this.props.score)
     }
 

@@ -16,14 +16,14 @@ const Counter = React.createClass({
 
     incrementValue: function (newValue) {
 
-        const tmpValue = Math.ceil(newValue * (-Math.pow(2, -10 * this.state.tc / 150) + 1))
+        const tmpValue = Math.ceil( (newValue - this.state.value) * (-Math.pow(2, -10 * this.state.tc / 200) + 1))
 
 
-        if (Math.abs(tmpValue - newValue) < 2 || this.state.tc > 150) {
+        if (Math.abs(tmpValue + this.state.value - newValue)  < 2 || this.state.tc > 200) {
             clearInterval(this.incrementValueInterval)
             this.setState({value: newValue})
         } else
-            this.setState({value: tmpValue, tc: this.state.tc + 1})
+            this.setState({value: tmpValue + this.state.value, tc: this.state.tc + 1})
     },
 
 
