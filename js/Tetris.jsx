@@ -5,7 +5,7 @@ import ReactDom from 'react-dom'
 import scss from '../scss/makeitpretty.scss'
 import Store from 'TetrisStore'
 import Constants from 'TetrisConstants'
-import Dispatcher from 'TetrisDispatcher'
+import Dispatcher from 'TetrisActions'
 
 
 
@@ -13,9 +13,8 @@ var TetrisBoard = React.createClass({
 
 
   componentDidMount: function(){
-    Store.addBoardListener(this._onChange)
-    Dispatcher.init()
-    //  TetrisStore.addChangeListener(this._onChange);
+      Store.on('boardChange', this._onChange)
+        Dispatcher.init()
   },
 
   getInitialState: function() {
