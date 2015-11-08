@@ -10,15 +10,19 @@ body {
 
   position: absolute;
   left: 50%;
-  top: 10%;
+  top: 2%;
   width: $width;
   height: 80%;
-  min-height: 670px;
+  min-height: 550px;
 
   margin: 0 0  -$width/2;
 
   display: inline-flex;
   flex-direction: column;
+
+  .tetrisDescription {
+    display: inline-block;
+  }
 
   > header {
     font-family: 'Lobster', sans-serif;
@@ -31,8 +35,8 @@ body {
   .tetris {
     z-index: 0;
     width: 80%;
-    height: 85%;
-    background-color: $base2;
+    height: 70%;
+    //background-color: $base2;
     font-family: 'Montserrat', sans-serif;
     margin: 0 auto;
 
@@ -45,19 +49,22 @@ body {
     .tetrominoPreview, .counter {
 
       color: $magenta;
+      text-align: center;
       header {
         font-size: 2em;
+        text-align: left;
       }
-      float: right;;
-      width: 25%;
+      float: right;
+      width: 30%;
     }
 
     .tetrominoPreview {
       height: 40%;
       svg {
-        float: right;
-        margin: 5%;
-        height: inherit;
+        max-height: 70%;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
 
@@ -69,9 +76,20 @@ body {
         color: $yellow;
         margin: 5px 5px 5px 0;
       }
+    }
+  }
 
+  footer {
+    font-family: 'Montserrat', sans-serif;
+    color: $base00;
+    text-align: right;
+
+    a {
     }
 
+    .fa-heart {
+      color: $red;
+    }
   }
 }
 

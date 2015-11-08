@@ -25,7 +25,7 @@ const TetrominoPreview = React.createClass({
         const color = Constants.tetrominoes[this.state.nextTetromino - 1]
         return (
             <section className="tetrominoPreview">
-                <header> Next Piece:</header>
+                <header> Next Piece</header>
                 <svg viewBox="1 0 4 4">
                     {pos.map( (elm, index)=> (<rect x={elm % Constants.BOARD_WIDTH}
                                                     y={Math.floor(elm / Constants.BOARD_WIDTH)} width="0.9" height="0.9"
