@@ -5,7 +5,8 @@
   "main": "webapp.js",
   "scripts": {
     "test": "echo \"TODO make tests :)\" && exit 1",
-      "start": " webpack-dev-server --config webpack.hot.config.js --hot --progress --inline --port 8090 "
+      "start": " webpack-dev-server --config webpack.hot.config.js --hot --progress --inline --port 8090 ",
+      "pack": "webpack --config webpack.production.js"
   },
   "keywords": [
     "react",
