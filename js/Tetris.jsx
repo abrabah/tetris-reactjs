@@ -8,17 +8,21 @@ var Tetris = React.createClass({
     render: function () {
 
         return (
-            <div>
-                <Board/>
-                <TetrominoPreview />
-                <Counter name="Level" />
-                <Counter name="Score" />
-            </div>
+            <article id="frame">
+                <header>Tetris-js</header>
+                <section className="tetris">
+                    <Board />
+                    <TetrominoPreview />
+                    <Counter name="Level"/>
+                    <Counter name="Score"/>
+                </section>
+                <footer> Made with love</footer>
+            </article>
         );
     }
 });
 
-
+ 
 ReactDom.render(
     <Tetris />,
     document.getElementById('content')

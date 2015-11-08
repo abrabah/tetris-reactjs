@@ -1,20 +1,114 @@
-#content{
-  $width: 480px;
-  $height: 600px;
-	width:$width;
-	height:$height;
-	position:absolute;
-	left:50%;
-	top:50%;
-	margin:-$height/2 0  -$width/2;
-  border-style: solid;
+@import "globals";
+
+body {
+  background-color: $base3;
 }
 
-svg{
-  width: 100%;
-  height: 100%;
+#frame {
+  $height: 700px;
+  $width: 800px;
+
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  width: $width;
+  height: 80%;
+  min-height: 670px;
+
+  margin: 0 0  -$width/2;
+
+  display: inline-flex;
+  flex-direction: column;
+
+  > header {
+    font-family: 'Lobster', sans-serif;
+    font-size: 10em;
+    text-align: left;
+    color: $base02;
+    z-index: 1;
+  }
+
+  .tetris {
+    z-index: 0;
+    width: 80%;
+    height: 85%;
+    background-color: $base2;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0 auto;
+
+    .board {
+      float: left;
+      width: 70%;
+      height: inherit;
+    }
+
+    .tetrominoPreview, .counter {
+
+      color: $magenta;
+      header {
+        font-size: 2em;
+      }
+      float: right;;
+      width: 25%;
+    }
+
+    .tetrominoPreview {
+      height: 40%;
+      svg {
+        float: right;
+        margin: 5%;
+        height: inherit;
+      }
+    }
+
+    .counter {
+      height: 20%;
+      p {
+        text-align: right;
+        font-size: 3em;
+        color: $yellow;
+        margin: 5px 5px 5px 0;
+      }
+
+    }
+
+  }
 }
 
-rect{
-  margin: 3px;
+svg {
+  .I {
+    fill: $cyan
+  }
+; // Cyan, Stick
+  .O {
+    fill: $yellow
+  }
+; // Yellow, Square
+  .T {
+    fill: $violet
+  }
+; // Purple,
+  .S {
+    fill: $green
+  }
+; // Green, Right snake
+  .Z {
+    fill: $red
+  }
+; // Red, left snake
+  .J {
+    fill: $blue
+  }
+; // Blue, left gun
+  .L {
+    fill: $orange
+  }
+; // Orange, right gun
+  .E {
+    fill: $base00
+  }
+; // Grey, edge
 }
+
+
+

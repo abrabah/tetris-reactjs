@@ -24,11 +24,11 @@ const Board = React.createClass({
     render: function () {
 
         return (
-            <svg viewBox={Constants.viewBox}>{
+            <svg className="board" viewBox={Constants.viewBox}>{
                 this.state.board
                     .map( (elm, index)=> (<rect x={index % Constants.BOARD_WIDTH}
                                                 y={Math.floor(index / Constants.BOARD_WIDTH)} width="0.9" height="0.9"
-                                                fill={Constants.colors[elm]}/>) )}
+                                                className={elm}/>) )}
             </svg>
         )
     },
