@@ -6,7 +6,7 @@ class Store extends EventEmitter {
 
     constructor() {
         super()
-        this.reset()
+        this.init()
     }
 
     get(value) {
@@ -29,23 +29,40 @@ class Store extends EventEmitter {
         this.props.board[this.currentPos + Constants.tetrominoes[this.currentTetromino + 2]] = color
     }
 
+    stop() {
+        this.props.pause = true
+        clearInterval(this.intervals.moveTetromino)
+    }
 
     start() {
         const ths = this
-        this.clock = setInterval(elm=> ths.shouldMoveTetromino = true, 1000)
-        this.eventLoop = setInterval(evt => ths._eventLoop(), 60)
+        this.props.pause = false
+        this.shouldMoveTetromino = true
+        this.keyCode = null
+        setTimeout(() => ths._eventLoop(), 10)
+
+
     }
 
-
-    stop() {
-        clearInterval(this.clock)
-        clearInterval(this.eventLoop)
-        this.runningLoop = false
+    pause() {
+        if (this.props.pause == true) {
+            this.start()
+        } else {
+            this.stop()
+        }
     }
 
-    reset() {
+    reset(){
+        this.stop()
+        this.init()
+        this.start()
+    }
+
+    init() {
+        console.log("resetting")
         stop()
         this.props = {}
+        this.intervals = {}
         this.props.score = 0
         this.props.level = 0
         this.props.board = new Array((Constants.BOARD_HEIGHT) * (Constants.BOARD_WIDTH))
@@ -59,24 +76,29 @@ class Store extends EventEmitter {
 
         this.currentTetromino = this._getRandomTetromino()
         this.props.nextTetromino = this._getRandomTetromino()
+        this.emit('nextTetrominoChange', this.props.nextTetromino)
+        this.emit('scoreChange', this.props.score)
+        this.emit('boardChange', this.props.board)
         this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH / 2)
         this.insertCurrentTetromino()
+        console.log('done')
     }
 
 
     _eventLoop() {
-        if (this.runningLoop) {
-            console.log("trash cycle")
+        const ths = this
+
+        if (this.props.pause)
             return
-        }
 
         if (this.shouldMoveTetromino || this.keyCode)
             this.removeCurrentTetromino()
 
         if (this.shouldMoveTetromino) {
             this._moveTetromino(Constants.BOARD_WIDTH)
+
+
         }
-        this.runningLoop = true
         if (this.keyCode) {
             switch (this.keyCode) {
                 case 38: //'ArrowUp'
@@ -104,9 +126,13 @@ class Store extends EventEmitter {
 
         }
 
-        this.shouldMoveTetromino = false
+        if(this.shouldMoveTetromino) {
+            this.shouldMoveTetromino = false
+            this.intervals.moveTetromino = setTimeout(() => ths.shouldMoveTetromino = true, 1000 - ths.props.level * 20)
+        }
         this.keyCode = null
-        this.runningLoop = false
+        setTimeout(() => ths._eventLoop(), 10)
+
     }
 
 
@@ -166,7 +192,7 @@ class Store extends EventEmitter {
             this.insertCurrentTetromino()
             this.currentTetromino = this.props.nextTetromino
             this.props.nextTetromino = this._getRandomTetromino()
-            this.emit('nextTetrominoChange',this.props.nextTetromino)
+            this.emit('nextTetrominoChange', this.props.nextTetromino)
             this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH / 2)
         }
 

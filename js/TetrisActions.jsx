@@ -13,7 +13,17 @@ class Action {
 
 
     addKeyEventListener() {
-        window.onkeydown = evt =>  Store.keyCode = evt.keyCode
+        window.onkeydown = evt => {
+            console.log(evt.keyCode)
+
+            if (evt.keyCode == 80) { //pause 'p'
+                Store.pause()
+            } else if (evt.keyCode == 82) {// restart 'r'
+                Store.reset()
+            } else {
+                Store.keyCode = evt.keyCode
+            }
+        }
     }
 
     removeKeyEventListener() {
