@@ -15,9 +15,9 @@ class Action {
     addKeyEventListener() {
         window.onkeydown = evt => {
 
-            if (evt.keyCode == 80) { //pause 'p'
+            if (evt.keyCode == 80) { //pause game 'p'
                 Store.pause()
-            } else if (evt.keyCode == 82) {// restart 'r'
+            } else if (evt.keyCode == 82) {// restart game 'r'
                 Store.reset()
             } else {
                 Store.keyCode = evt.keyCode

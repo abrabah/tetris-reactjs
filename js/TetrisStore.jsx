@@ -52,7 +52,7 @@ class Store extends EventEmitter {
         }
     }
 
-    reset(){
+    reset() {
         this.stop()
         this.init()
         this.start()
@@ -64,6 +64,7 @@ class Store extends EventEmitter {
         this.intervals = {}
         this.props.score = 0
         this.props.level = 0
+        this.props.movedLines = 0
         this.props.board = new Array((Constants.BOARD_HEIGHT) * (Constants.BOARD_WIDTH))
         for (var i = 0; i < this.props.board.length - Constants.BOARD_WIDTH; i += Constants.BOARD_WIDTH) {
             this.props.board[i] = 'E'
@@ -124,9 +125,9 @@ class Store extends EventEmitter {
 
         }
 
-        if(this.shouldMoveTetromino) {
+        if (this.shouldMoveTetromino) {
             this.shouldMoveTetromino = false
-            this.intervals.moveTetromino = setTimeout(() => ths.shouldMoveTetromino = true, 1000 - ths.props.level * 20)
+            this.intervals.moveTetromino = setTimeout(() => ths.shouldMoveTetromino = true, Constants.minSpeed - ths.props.level * Constants.levelSpeedMultiplier)
         }
         this.keyCode = null
         setTimeout(() => ths._eventLoop(), 10)
@@ -222,10 +223,14 @@ class Store extends EventEmitter {
                 movedLines++
                 move += Constants.BOARD_WIDTH
             }
-
         }
+
+
+        this.props.movedLines += movedLines
+        this.props.level = Math.min(Constants.maxLevel, Math.floor(this.props.movedLines / Constants.movedLinesPerLevel))
         this.props.score += Constants.lineScoreMultiplicator[movedLines] * (this.props.level + 1)
         this.emit('scoreChange', this.props.score)
+        this.emit('levelChange', this.props.level)
     }
 
 }

@@ -13,6 +13,11 @@ const BR = BOARD_WIDTH + 1
 
 let Constants = {
 
+    movedLinesPerLevel: 7,
+    maxLevel: 20,
+    levelSpeedMultiplier: 50,
+    minSpeed: 1000,
+
     BOARD_WIDTH: BOARD_WIDTH,
 
     BOARD_HEIGHT: BOARD_HEIGHT,
@@ -29,7 +34,7 @@ let Constants = {
         L: '#AC5330', //Orange, right gun
         E: '#6E6F6F', //Grey, edge
     },
-    lineScoreMultiplicator: [0,40, 100, 300, 1200,],
+    lineScoreMultiplicator: [0, 40, 100, 300, 1200,],
 
     tetrominoes: [
         'I', TC, BC, 2 * BOARD_WIDTH,
