@@ -59,7 +59,6 @@ class Store extends EventEmitter {
     }
 
     init() {
-        console.log("resetting")
         stop()
         this.props = {}
         this.intervals = {}
@@ -81,7 +80,6 @@ class Store extends EventEmitter {
         this.emit('boardChange', this.props.board)
         this.currentPos = Constants.BOARD_WIDTH + Math.floor(Constants.BOARD_WIDTH / 2)
         this.insertCurrentTetromino()
-        console.log('done')
     }
 
 

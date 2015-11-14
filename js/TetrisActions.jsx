@@ -14,7 +14,6 @@ class Action {
 
     addKeyEventListener() {
         window.onkeydown = evt => {
-            console.log(evt.keyCode)
 
             if (evt.keyCode == 80) { //pause 'p'
                 Store.pause()
