@@ -45,7 +45,7 @@ class Store extends EventEmitter {
     }
 
     pause() {
-        if (this.props.pause == true) {
+        if (this.props.pause === true) {
             this.start()
         } else {
             this.stop()
