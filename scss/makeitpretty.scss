@@ -65,10 +65,10 @@ body, #content {
       }
     }
   }
-    .description{
-      margin: 10px 0;
-      text-align: center;
-    }
+  .description {
+    margin: 10px 0;
+    text-align: center;
+  }
 
   footer {
     color: $base00;
@@ -79,39 +79,30 @@ body, #content {
   }
 }
 
+@mixin tetromino-style($class, $color) {
+
+}
+
 svg {
-  .I {
-    fill: $cyan
+  $tetrominoes: (
+                  ("I", $cyan),
+                  ("O", $yellow),
+                  ("T", $violet),
+                  ("S", $green),
+                  ("Z", $red),
+                  ("J", $blue),
+                  ("L", $orange),
+                  ("E", $base00));
+
+  @each $tetromino in $tetrominoes {
+    .#{nth($tetromino,1)} {
+      fill: nth($tetromino, 2);
+      &.darken {
+        fill: change_color(nth($tetromino,2),$saturation:15%);
+      }
+    }
+
   }
-; // Cyan, Stick
-  .O {
-    fill: $yellow
-  }
-; // Yellow, Square
-  .T {
-    fill: $violet
-  }
-; // Purple,
-  .S {
-    fill: $green
-  }
-; // Green, Right snake
-  .Z {
-    fill: $red
-  }
-; // Red, left snake
-  .J {
-    fill: $blue
-  }
-; // Blue, left gun
-  .L {
-    fill: $orange
-  }
-; // Orange, right gun
-  .E {
-    fill: $base00
-  }
-; // Grey, edge
 }
 
 

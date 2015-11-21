@@ -30,13 +30,13 @@ class Store extends EventEmitter {
     }
 
     stop() {
-        this.props.pause = true
         clearInterval(this.intervals.moveTetromino)
     }
 
     start() {
         const ths = this
-        this.props.pause = false
+        this.props.state = "running"
+        this.emit('stateChange',this.props.state)
         this.shouldMoveTetromino = true
         this.keyCode = null
         setTimeout(() => ths._eventLoop(), 10)
@@ -45,10 +45,13 @@ class Store extends EventEmitter {
     }
 
     pause() {
-        if (this.props.pause === true) {
+        if (this.props.state === "pause") {
             this.start()
-        } else {
+        } else if (this.props.state == 'running') {
+            this.props.state = "pause"
+            this.emit('stateChange', this.props.state)
             this.stop()
+
         }
     }
 
@@ -87,7 +90,7 @@ class Store extends EventEmitter {
     _eventLoop() {
         const ths = this
 
-        if (this.props.pause)
+        if (this.props.state !== "running")
             return
 
         if (this.shouldMoveTetromino || this.keyCode)
@@ -178,8 +181,10 @@ class Store extends EventEmitter {
         this._moveFilledLines()
         this._changeTetrominoIfNeeded()
         if (!this.tetrominoFits(this.currentPos + Constants.BOARD_WIDTH, this.currentTetromino)) {
+
+            this.props.state = "gameover"
+            this.emit('stateChange',this.props.state)
             this.stop()
-            console.log("TODO implement GAME OVER!")
         }
         this.insertCurrentTetromino()
     }
