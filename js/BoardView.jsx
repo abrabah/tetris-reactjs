@@ -25,15 +25,20 @@ const Board = React.createClass({
     render: function () {
 
 
-        const darken = this.state.gameState === 'pause' ? " darken" : ""
+        const darken = this.state.gameState === 'pause' || this.state.gameState ==='gameover' ? " darken" : ""
 
         return (
-            <svg className="board" viewBox={Constants.viewBox}>{
-                this.state.board
-                    .map( (elm, index)=> (<rect x={index % Constants.BOARD_WIDTH}
-                                                y={Math.floor(index / Constants.BOARD_WIDTH)} width="0.9" height="0.9"
-                                                className={elm + darken}/>) )}
-            </svg>
+            <section className="board">
+                <p className={this.state.gameState === 'gameover' ? "":"hidden"}> Game Over</p>
+                <p className={this.state.gameState === 'pause' ? "":"hidden"}> Game Paused</p>
+                <svg  viewBox={Constants.viewBox}>{
+                    this.state.board
+                        .map( (elm, index)=> (<rect x={index % Constants.BOARD_WIDTH}
+                                                    y={Math.floor(index / Constants.BOARD_WIDTH)} width="0.9"
+                                                    height="0.9"
+                                                    className={elm + darken}/>) )}
+                </svg>
+            </section>
         )
     },
 
